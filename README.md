@@ -3,8 +3,7 @@
 Provides custom Image view for React Native that allows to perform
 pinch-to-zoom on images. Works on both iOS and Android.
 
-This component uses [PhotoDraweeView](https://github.com/ongakuer/PhotoDraweeView) for Android and native
-Scroll + Image approach on iOS.
+This component uses [PhotoDraweeView](https://github.com/ongakuer/PhotoDraweeView) for Android and [MWPhotobrowser](https://github.com/mwaterfall/MWPhotoBrowser) on iOS.
 
 ## Usage
 
@@ -40,9 +39,10 @@ androidZoomTransitionDuration | int | **Android only**: Double-tap zoom transiti
 | onLoadStart | func | Callback function |
 | onLoad | func | Callback function |
 | onLoadEnd | func | Callback function |
+| onProgress | func | **iOS only**: Callback function, invoked on download progress with {nativeEvent: {loaded, total}}. |
 | onTap | func | Callback function (called on image tap) |
-| onViewTap | func | Callback function (called on tap outside of image). Currently **Android only** (will be available for iOS later) |
-| onScale | func | Callback function. Currently **Android only** (will be available for iOS later) |
+| onViewTap | func | Callback function (called on tap outside of image) |
+| onScale | func | Callback function |
 
 ## Compared to [react-native-image-zoom](https://github.com/Anthonyzou/react-native-image-zoom)
 

@@ -1,5 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {requireNativeComponent, View} from 'react-native';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { requireNativeComponent, View } from 'react-native';
 import ViewPropTypes from 'react-native/Libraries/Components/View/ViewPropTypes';
 
 const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
@@ -27,6 +28,7 @@ export default class PhotoView extends Component {
         androidZoomTransitionDuration: PropTypes.number,
         androidScaleType: PropTypes.oneOf(["center", "centerCrop", "centerInside", "fitCenter", "fitStart", "fitEnd", "fitXY", "matrix"]),
         onLoadStart: PropTypes.func,
+        onError: PropTypes.func,
         onLoad: PropTypes.func,
         onLoadEnd: PropTypes.func,
         onTap: PropTypes.func,
@@ -48,27 +50,21 @@ export default class PhotoView extends Component {
         }
 
         if (source && source.uri) {
-            var {onLoadStart, onLoad, onLoadEnd} = this.props;
+            var {onLoadStart, onLoad, onLoadEnd, onTap, onViewTap, onScale, onError, ...props} = this.props;
 
             var nativeProps = {
-                onPhotoViewerLoadStart: this.props.onLoadStart,
-                onPhotoViewerLoad: this.props.onLoad,
-                onPhotoViewerLoadEnd: this.props.onLoadEnd,
-                onPhotoViewerTap: this.props.onTap,
-                onPhotoViewerViewTap: this.props.onViewTap,
-                onPhotoViewerScale: this.props.onScale,
-                ...this.props,
+                onPhotoViewerError: onError,
+                onPhotoViewerLoadStart: onLoadStart,
+                onPhotoViewerLoad: onLoad,
+                onPhotoViewerLoadEnd: onLoadEnd,
+                onPhotoViewerTap: onTap,
+                onPhotoViewerViewTap: onViewTap,
+                onPhotoViewerScale: onScale,
+                ...props,
                 shouldNotifyLoadEvents: !!(onLoadStart || onLoad || onLoadEnd),
                 src: source,
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
-
-          delete nativeProps.onLoadStart;
-          delete nativeProps.onLoad;
-          delete nativeProps.onLoadEnd;
-          delete nativeProps.onTap;
-          delete nativeProps.onViewTap;
-          delete nativeProps.onScale;
 
             return <PhotoViewAndroid {...nativeProps} />
         }
@@ -78,9 +74,17 @@ export default class PhotoView extends Component {
 
 var cfg = {
     nativeOnly: {
+        onPhotoViewerError: true,
+        onPhotoViewerLoadStart: true,
+        onPhotoViewerLoad: true,
+        onPhotoViewerLoadEnd: true,
+        onPhotoViewerTap: true,
+        onPhotoViewerViewTap: true,
+        onPhotoViewerScale: true,
+        shouldNotifyLoadEvents: true,
         src: true,
-        loadingIndicatorSrc: true,
-        shouldNotifyLoadEvents: true
+        loadingIndicatorSrc: true
     }
 };
+
 const PhotoViewAndroid = requireNativeComponent('PhotoViewAndroid', PhotoView, cfg);
