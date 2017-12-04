@@ -1,6 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {requireNativeComponent, View} from 'react-native';
 import ViewPropTypes from 'react-native/Libraries/Components/View/ViewPropTypes';
+import PropTypes from 'prop-types';
 
 const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
 
